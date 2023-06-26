@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Screen Replication</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+  <div id="wrapper">
+    <canvas id="screenCanvas"></canvas>
+    <form id="variableForm">
+      <label for="variable1">Variable 1:</label>
+      <input type="text" id="variable1" name="variable1">
+      <label for="variable2">Variable 2:</label>
+      <input type="text" id="variable2" name="variable2">
+      <!-- Add more input fields for additional variables as needed -->
+      <button type="submit">Apply Variables</button>
+    </form>
+    <div id="controls">
+      <button id="startButton" disabled>Start</button>
+      <button id="stopButton" disabled>Stop</button>
+      <button id="resetButton" disabled>Reset</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
