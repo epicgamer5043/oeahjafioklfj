@@ -4,7 +4,11 @@ let recordedActions = [];
 
 const startRecording = async () => {
   try {
-    const stream = await navigator.mediaDevices.getDisplayMedia();
+    const stream = await navigator.mediaDevices.getDisplayMedia({
+      video: {
+        mediaSource: 'screen'
+      }
+    });
     mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.ondataavailable = handleDataAvailable;
     mediaRecorder.start();
@@ -31,13 +35,32 @@ const handleDataAvailable = (event) => {
 };
 
 const replayActions = () => {
-  recordedActions.forEach((action, index) => {
-    setTimeout(() => {
-      // Perform the recorded action
-      // For demonstration purposes, we'll log the action to the console
-      console.log(`Action ${index + 1}: ${action}`);
-    }, index * 1000); // Delay each action by 1 second
-  });
+  let currentIndex = 0;
+  const playbackInterval = setInterval(() => {
+    if (currentIndex >= recordedActions.length) {
+      clearInterval(playbackInterval);
+      return;
+    }
+
+    const action = recordedActions[currentIndex];
+    executeAction(action);
+    currentIndex++;
+  }, 1000);
+};
+
+const executeAction = (action) => {
+  const [eventType, eventData] = action.split(':');
+  switch (eventType.trim()) {
+    case 'Keydown':
+      document.dispatchEvent(new KeyboardEvent('keydown', { key: eventData.trim() }));
+      break;
+    case 'Click':
+      const [x, y] = eventData.split(',').map(coord => parseInt(coord));
+      document.dispatchEvent(new MouseEvent('click', { clientX: x, clientY: y }));
+      break;
+    default:
+      console.warn('Unknown action:', action);
+  }
 };
 
 document.addEventListener('keydown', (event) => {
@@ -45,7 +68,7 @@ document.addEventListener('keydown', (event) => {
 });
 
 document.addEventListener('click', (event) => {
-  recordedActions.push(`Click: (${event.clientX}, ${event.clientY})`);
+  recordedActions.push(`Click: ${event.clientX}, ${event.clientY}`);
 });
 
 document.getElementById('startBtn').addEventListener('click', startRecording);
