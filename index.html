@@ -12,7 +12,10 @@
       <button id="stopBtn" disabled>Stop Recording</button>
       <button id="replayBtn" disabled>Replay</button>
     </div>
-    <video id="recordedVideo" controls></video>
+    <div class="screen-view">
+      <video id="recordedVideo" controls></video>
+      <canvas id="liveView"></canvas>
+    </div>
   </div>
 
   <script src="script.js"></script>
