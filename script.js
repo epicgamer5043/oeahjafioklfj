@@ -1,16 +1,23 @@
 let mediaRecorder;
 let recordedChunks = [];
 let recordedActions = [];
+let liveStream;
 
 const startRecording = async () => {
   try {
-    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-    mediaRecorder = new MediaRecorder(stream);
+    const displayStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+    mediaRecorder = new MediaRecorder(displayStream);
     mediaRecorder.ondataavailable = handleDataAvailable;
     mediaRecorder.start();
 
     document.getElementById('startBtn').disabled = true;
     document.getElementById('stopBtn').disabled = false;
+
+    liveStream = new MediaStream();
+    displayStream.getTracks().forEach(track => liveStream.addTrack(track));
+
+    const liveVideoElement = document.getElementById('liveView');
+    liveVideoElement.srcObject = liveStream;
   } catch (error) {
     console.error('Error starting screen recording:', error);
   }
@@ -22,6 +29,8 @@ const stopRecording = () => {
   document.getElementById('startBtn').disabled = false;
   document.getElementById('stopBtn').disabled = true;
   document.getElementById('replayBtn').disabled = false;
+
+  liveStream.getTracks().forEach(track => track.stop());
 };
 
 const handleDataAvailable = (event) => {
