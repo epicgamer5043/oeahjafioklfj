@@ -4,11 +4,7 @@ let recordedActions = [];
 
 const startRecording = async () => {
   try {
-    const stream = await navigator.mediaDevices.getDisplayMedia({
-      video: {
-        mediaSource: 'screen'
-      }
-    });
+    const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
     mediaRecorder = new MediaRecorder(stream);
     mediaRecorder.ondataavailable = handleDataAvailable;
     mediaRecorder.start();
