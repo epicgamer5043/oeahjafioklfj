@@ -1,26 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Screen Replication</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <title>Screen Recording Website</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="wrapper">
-    <canvas id="screenCanvas"></canvas>
-    <form id="variableForm">
-      <label for="variable1">Variable 1:</label>
-      <input type="text" id="variable1" name="variable1">
-      <label for="variable2">Variable 2:</label>
-      <input type="text" id="variable2" name="variable2">
-      <!-- Add more input fields for additional variables as needed -->
-      <button type="submit">Apply Variables</button>
-    </form>
-    <div id="controls">
-      <button id="startButton" disabled>Start</button>
-      <button id="stopButton" disabled>Stop</button>
-      <button id="resetButton" disabled>Reset</button>
+  <div class="container">
+    <h1>Screen Recording Website</h1>
+    <div class="controls">
+      <button id="startBtn" disabled>Start Recording</button>
+      <button id="stopBtn" disabled>Stop Recording</button>
+      <button id="replayBtn" disabled>Replay</button>
     </div>
+    <video id="recordedVideo" controls></video>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
