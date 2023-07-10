@@ -1,70 +1,76 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+let userActions = [];
+let variables = [];
+
+function addAction() {
+  const actionInput = document.getElementById('actionInput');
+  const action = actionInput.value.trim();
+
+  if (action !== '') {
+    userActions.push(action);
+    renderActions();
+    actionInput.value = '';
+  }
 }
 
-#wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #f2f2f2;
+function renderActions() {
+  const actionList = document.getElementById('actionList');
+  actionList.innerHTML = '';
+
+  userActions.forEach((action, index) => {
+    const listItem = document.createElement('div');
+    listItem.textContent = action;
+    actionList.appendChild(listItem);
+  });
 }
 
-#screenCanvas {
-  border: 1px solid black;
-  background-color: #ffffff;
-  /* Add any additional desired styles for the canvas */
+function addVariable() {
+  const variableInput = document.getElementById('variableInput');
+  const variable = variableInput.value.trim();
+
+  if (variable !== '') {
+    variables.push(variable);
+    renderVariables();
+    variableInput.value = '';
+  }
 }
 
-#variableForm {
-  margin-top: 20px;
-  text-align: center;
+function renderVariables() {
+  const variableList = document.getElementById('variableList');
+  variableList.innerHTML = '';
+
+  variables.forEach((variable, index) => {
+    const listItem = document.createElement('div');
+    listItem.textContent = variable;
+    variableList.appendChild(listItem);
+  });
 }
 
-#variableForm label {
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
+function replicateActions() {
+  const output = document.getElementById('output');
+  output.innerHTML = '';
+
+  const gptInput = userActions.join('\n') + '\n' + variables.join('\n');
+
+  // Use the GPT-based AI to process user input and generate output
+  const generatedOutput = generateOutputWithGPT(gptInput);
+  output.textContent = generatedOutput;
 }
 
-#variableForm input[type="text"] {
-  padding: 5px;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+function generateOutputWithGPT(input) {
+  // Perform GPT-based generation logic here
+  // You can use the OpenAI GPT-3 API or a local implementation of GPT
+
+  // Example placeholder response
+  return "The actions will be replicated. Variables identified: X, Y, Z.";
 }
 
-#variableForm button[type="submit"] {
-  padding: 8px 16px;
-  background-color: #4CAF50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
+document.addEventListener('DOMContentLoaded', function() {
+  const addActionBtn = document.getElementById('addActionBtn');
+  addActionBtn.addEventListener('click', addAction);
 
-#variableForm button[type="submit"]:hover {
-  background-color: #45a049;
-}
+  const addVariableBtn = document.getElementById('addVariableBtn');
+  addVariableBtn.addEventListener('click', addVariable);
 
-#controls {
-  margin-top: 20px;
-}
-
-#controls button {
-  padding: 8px 16px;
-  margin-right: 10px;
-  background-color: #4CAF50;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-#controls button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
+  const replicateBtn = document.getElementById('replicateBtn');
+  replicateBtn.addEventListener('click', replicateActions);
+});
